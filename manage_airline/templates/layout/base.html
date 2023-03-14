@@ -17,7 +17,7 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!--    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet"/>-->
+<!--    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet"/>-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
@@ -29,8 +29,9 @@
         ::-webkit-scrollbar {
             display: none;
         }
-
-
+        ::-background{
+            background-image: url_for('static',filename='img/maybay.jpg')
+        }
     </style>
     {% block js %}{% endblock %}
 </head>
@@ -38,8 +39,13 @@
 {% block header %}
 {% include 'layout/header.html' %}
 {% endblock %}
-<div class="container h-100" style="padding-top: 68px; padding-bottom: 68px; overflow-y: scroll;">
-    {% block content required %}{% endblock %}
+<div class="background">
+    <div class="container h-100" style="padding-top: 68px; padding-bottom: 68px; overflow-y: scroll;">
+        {% block content required %}{% endblock %}
+    </div>
+<!--    <div class="nen_tong">-->
+<!--        <img src="{{url_for('static',filename='img/maybay.jpg')}}" alt="" class="hinh_nen">-->
+<!--    </div>-->
 </div>
 {% block footer %}
 {% include 'layout/footer.html' %}

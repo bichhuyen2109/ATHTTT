@@ -101,9 +101,9 @@ class ADMINRules(BaseModel):
 
 if __name__ == '__main__':
     with app.app_context():
-        # db.create_all()
+        db.create_all()
 
-        a = User(fullname='Quản trị viên', username='anonymous', user_role=UserRole.ADMIN)
+        a = User(fullname='Quản trị viên', username='admin', user_role=UserRole.ADMIN)
         s = User(fullname='Nhân viên', username='staff', user_role=UserRole.STAFF)
         u = User(fullname='Người dùng', username='user', user_role=UserRole.USER)
         db.session.add_all([a, s, u])
