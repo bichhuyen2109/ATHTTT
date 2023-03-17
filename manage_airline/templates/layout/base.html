@@ -25,34 +25,30 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet"/>
     <style>
         ::-webkit-scrollbar {
             display: none;
         }
-        ::-background{
-            background-image: url_for('static',filename='img/maybay.jpg')
-        }
     </style>
     {% block js %}{% endblock %}
 </head>
-<body class="vh-100" style="background: #f5f5f5">
-{% block header %}
-{% include 'layout/header.html' %}
-{% endblock %}
-<div class="background">
+<body class="vh-100" style="background-image:url('{{ url_for('static', filename='img/ai.jpg') }}')">
+
+    {% block header %}
+    {% include 'layout/header.html' %}
+    {% endblock %}
+
     <div class="container h-100" style="padding-top: 68px; padding-bottom: 68px; overflow-y: scroll;">
         {% block content required %}{% endblock %}
     </div>
-<!--    <div class="nen_tong">-->
-<!--        <img src="{{url_for('static',filename='img/maybay.jpg')}}" alt="" class="hinh_nen">-->
-<!--    </div>-->
-</div>
-{% block footer %}
-{% include 'layout/footer.html' %}
-{% endblock %}
-<div style="background-color: rgba(0,0,0,0.6); position: fixed; inset: 0; display: flex; justify-content: center; align-items: center"
-     class="loading-wrap">
-    <div class="spinner-grow text-light" role="status"></div>
-</div>
+
+    {% block footer %}
+    {% include 'layout/footer.html' %}
+    {% endblock %}
+    <!--<div style="background-color: rgba(0,0,0,0.6); position: fixed; inset: 0; display: flex; justify-content: center; align-items: center"-->
+    <!--     class="loading-wrap">-->
+    <!--    <div class="spinner-grow text-light" role="status"></div>-->
+    <!--</div>-->
 </body>
 </html>
