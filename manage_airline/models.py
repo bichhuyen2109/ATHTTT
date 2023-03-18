@@ -8,7 +8,7 @@ from flask_login import UserMixin
 import hashlib
 
 default_password = str(hashlib.md5('123456'.encode('utf-8')).hexdigest())
-
+default_keyname = str(hashlib.md5('NAME'.encode('utf-8')).hexdigest())
 
 class UserRole(UserEnum):
     USER = 1
@@ -27,6 +27,7 @@ class User(BaseModel, UserMixin):
     password = Column(String(50), default=default_password)
     image = Column(String(100))
     user_role = Column(Enum(UserRole), default=UserRole.USER)
+    keyname = Column(String(50), default=default_keyname, nullable=False)
 
     def __str__(self):
         return self.fullname
@@ -101,7 +102,7 @@ class ADMINRules(BaseModel):
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
+        # db.create_all()
 
         a = User(fullname='Quản trị viên', username='admin', user_role=UserRole.ADMIN)
         s = User(fullname='Nhân viên', username='staff', user_role=UserRole.STAFF)
@@ -127,4 +128,4 @@ if __name__ == '__main__':
         db.session.add(a)
         db.session.commit()
 
-        pass
+

@@ -23,7 +23,7 @@
         <!-- Password input -->
         <div class="form-outline mb-2">
             <label class="form-label" for="password">Mật khẩu:</label>
-            <input minlength="4" required name="password" type="password" id="password" class="form-control"/>
+            <input minlength="4" required name="password" type="password" id="password" class="form-control" onkeyup="validatePassword(this.value);"/><span id="msg"></span>
         </div>
 
         <!-- Confirm password input -->
@@ -32,6 +32,10 @@
             <input required name="confirm" type="password" id="confirm" class="form-control"/>
         </div>
 
+        <div class="form-outline mb-2">
+            <label class="form-label" for="keyname">Key Name:</label>
+            <input minlength="4" maxlength="4" required name="keyname" type="password" id="keyname" class="form-control"/><span id="msgkey"></span>
+        </div>
         <!-- Submit button -->
         <button disabled type="submit" class="w-100 btn btn-primary btn-block mb-4">Đăng ký</button>
 
@@ -47,21 +51,95 @@
         {% endif %}
     </form>
 </div>
+
 <script>
     const uName = document.querySelector('#username')
     const fName = document.querySelector('#fullname')
     const pw = document.querySelector('#password')
     const cf = document.querySelector('#confirm')
     const submitBtn = document.querySelector('button[type=submit]')
+    const key = document.querySelector('#keyname')
+
+ function validatePassword(pw) {
+                if (pw.length === 0) {
+                    document.getElementById("msg").innerHTML = ""
+                    return
+                }
+
+
+
+                var matchedCase = new Array()
+                matchedCase.push("[$@$!%*#?&]")
+                matchedCase.push("[A-Z]")
+                matchedCase.push("[0-9]")
+                matchedCase.push("[a-z]")
+
+
+                var ctr = 0
+                for (var i = 0; i < matchedCase.length; i++) {
+                    if (new RegExp(matchedCase[i]).test(pw)) {
+                        ctr++
+
+                    }
+                }
+
+                var color = ""
+                var strength = ""
+                switch (ctr) {
+                    case 0:
+                    case 1:
+                    case 2:
+                        strength = "Very Weak"
+                        color = "red"
+                        submitBtn.disabled = true
+                        break
+                    case 3:
+                        strength = "Medium"
+                        color = "orange"
+                        submitBtn.disabled = true
+                        break
+                    case 4:
+                        strength = "Strong"
+                        color = "green"
+                        submitBtn.disabled = false
+                        break
+                }
+                document.getElementById("msg").innerHTML = strength
+                document.getElementById("msg").style.color = color
+            }
 
     cf.oninput = (e) => {
         if (cf.value.trim() === pw.value) {
             submitBtn.disabled = false
-            cf.style.border = 'none'
+            cf.style.border = '1px solid lightgray'
         } else {
             cf.style.border = '1px solid red'
             submitBtn.disabled = true
         }
+    }
+
+    key.onfocus = (e) => {
+        if(key.value.trim().length < 4){
+            document.getElementById("msgkey").innerHTML = "keyname has to be 4 letters"
+            document.getElementById("msgkey").style.color = 'red'
+        }else{
+            document.getElementById("msgkey").innerHTML = "Great"
+            document.getElementById("msgkey").style.color = 'green'
+        }
+    }
+
+    key.oninput = (e) => {
+        if(key.value.trim().length < 4){
+            document.getElementById("msgkey").innerHTML = "keyname has to be 4 letters"
+            document.getElementById("msgkey").style.color = 'red'
+        }else{
+            document.getElementById("msgkey").innerHTML = "Great"
+            document.getElementById("msgkey").style.color = 'green'
+        }
+    }
+
+     key.onblur = (e) => {
+        document.getElementById("msgkey").innerHTML = ""
     }
 
     document.querySelector('form').onsubmit = (e) => {
@@ -72,4 +150,7 @@
     }
 
 </script>
+
+
+
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, session
+from flask import render_template, redirect, request, session, app, url_for
 from manage_airline import dao, db, flow
 from manage_airline.models import UserRole, User
 from flask_login import login_user, logout_user, current_user
@@ -19,13 +19,55 @@ def login():
         user = dao.auth_user(username=username, password=password)
 
         if user:
-            login_user(user=user)
-            if user.user_role == UserRole.ADMIN:
-                return redirect('/admin')
-            return redirect('/')
+            session["username"] = username
+            session["password"] = password
+            # count = 0
+            # session['count'] = count
+            return redirect(url_for("login_keyname", un=username, up=password))
         else:
             return render_template('login.html', error="Sai tên tài khoản hoặc mật khẩu!")
     return render_template('login.html')
+
+def login_keyname():
+    # count = 0
+    if request.method.__eq__('POST'):
+        keyname = request.form['keyname']
+
+        if "username" in session and "password" in session:
+
+            un = session['username']
+            up = session['password']
+            user = dao.auth_userkey(username=un, password=up, keyname=keyname)
+            if user:
+                login_user(user=user)
+                if user.user_role == UserRole.ADMIN:
+                    return redirect('/admin')
+                return redirect('/')
+            else:
+                # if "count" in session:
+                #     count = session['count']
+                #     count = count + 1
+                # if count == 3:
+                #     return render_template('login.html', error="Nhap sai Key Name qua 3 lan!")
+                return render_template('keynamelogin.html', error="Incorrect Key Name !!")
+        return render_template('login.html')
+    return render_template('keynamelogin.html')
+
+# def login():
+#     if request.method.__eq__('POST'):
+#         username = request.form['username']
+#         password = request.form['password']
+#
+#         user = dao.auth_user(username=username, password=password)
+#
+#         if user:
+#             login_user(user=user)
+#             if user.user_role == UserRole.ADMIN:
+#                 return redirect('/admin')
+#             return redirect('/')
+#         else:
+#             return render_template('login.html', error="Sai tên tài khoản hoặc mật khẩu!")
+#     return render_template('login.html')
 
 
 @anonymous_user
@@ -38,7 +80,7 @@ def register():
             try:
                 dao.register(fullname=request.form['fullname'],
                              username=request.form['username'],
-                             password=password)
+                             password=password, keyname=request.form['keyname'])
 
                 return redirect("/login")
             except Exception as err:

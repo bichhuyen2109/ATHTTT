@@ -23,9 +23,10 @@ def get_user_by_id(user_id):
     return User.query.get(user_id)
 
 
-def register(fullname, username, password):
+def register(fullname, username, password, keyname):
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
-    u = User(fullname=fullname, username=username.strip(), password=password)
+    keyname = str(hashlib.md5(keyname.strip().encode('utf-8')).hexdigest())
+    u = User(fullname=fullname, username=username.strip(), password=password, keyname=keyname)
     db.session.add(u)
     db.session.commit()
 
@@ -35,6 +36,13 @@ def auth_user(username, password):
     return User.query.filter(User.username.__eq__(username.strip()),
                              User.password.__eq__(password)).first()
 
+
+def auth_userkey(username, password, keyname):
+    keyname = str(hashlib.md5(keyname.strip().encode('utf-8')).hexdigest())
+    password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
+    return User.query.filter(User.username.__eq__(username.strip()),
+                             User.password.__eq__(password),
+                             User.keyname.__eq__(keyname.strip())).first()
 
 def get_user_oauth():
     flow.fetch_token(authorization_response=request.url)

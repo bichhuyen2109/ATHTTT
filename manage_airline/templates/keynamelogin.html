@@ -1,0 +1,26 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+{% if error %}
+
+<div class="alert alert-danger">
+    {{ error }}
+</div>
+
+{% endif %}
+
+<div class="h-100 d-flex align-item-center justify-content-center">
+    <form method="post" action="" style="height: fit-content; min-width: 300px"
+          class="my-auto p-4 bg-white shadow-lg rounded-1">
+        <div class="fs-3 text-primary text-center my-4">Đăng nhập</div>
+        <!-- Keyname input -->
+        <div class="form-outline mb-2">
+            <label class="form-label" for="keyname">Key Name:</label>
+            <input required minlength="4" maxlength="4" autofocus type="text" name="keyname" id="keyname" class="form-control"/>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="w-100 btn btn-primary btn-block mb-4">Đăng nhập</button>
+    </form>
+</div>
+{% endblock %}
